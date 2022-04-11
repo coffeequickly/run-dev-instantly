@@ -30,11 +30,11 @@ const stopServer = () => {
 app.get('/docker/', async (req, res) => {
     await docker.command('run -d -p 80:80 docker/getting-started').then(function (data) {
         res.send({
-            result : data
+            containerId : data.containerId
         })
     }, function(error){
         res.send({
-            result : error
+            error : error
         })
     })
 });
