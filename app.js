@@ -19,8 +19,8 @@ const app = express();
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use(bodyParser.json({ limit: '50mb' }));
 
-const server = app.listen(3000, () => {
-    console.log('시작! 포트 http://localhost:3000 에서 요청 기다리고 있습니다.');
+const server = app.listen(3003, () => {
+    console.log('시작! 포트 http://localhost:3003 에서 요청 기다리고 있습니다.');
 });
 
 const stopServer = () => {
@@ -28,7 +28,7 @@ const stopServer = () => {
 };
 
 app.get('/docker/', async (req, res) => {
-    await docker.command('run -d -p 80:80 docker/getting-started').then(function (data) {
+    await docker.command('run -d -p 80:8777 docker/getting-started').then(function (data) {
         res.send({
             containerId : data.containerId
         })
