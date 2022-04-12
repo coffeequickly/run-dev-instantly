@@ -2,9 +2,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const dockerCLI = require('docker-cli-js');
-const DockerOptions = dockerCLI.Options;
+// const DockerOptions = dockerCLI.Options;
 const Docker = dockerCLI.Docker;
-const { dockerCommand } = require('docker-cli-js');
+// const { dockerCommand } = require('docker-cli-js');
 import config from "./configure"
 const options = {
     machineName: null, // uses local docker
@@ -27,8 +27,13 @@ const stopServer = () => {
     server.close();
 };
 
+//https://github.com/coffeequickly/half.engineer.git
+
 app.get('/docker/', async (req, res) => {
-    await docker.command('run -d -p 8777:80 docker/getting-started').then(function (data) {
+    // TODO : 이미지 만드는걸 분리하자...
+    const NODE_VERSION = "14.19.1";
+    const GITHUB_TARGET = "coffeequickly/half.engineer";
+    await docker.command(`run -itd -p 80:3000 $(docker build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg GITHUB_TARGET=${GITHUB_TARGET}  --build-arg GITHUB_TOKEN=${config.token} --no-cache -q -t test-2 .)`).then(function (data) {
         res.send({
             containerId : data.containerId
         })
