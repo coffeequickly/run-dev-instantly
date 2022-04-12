@@ -33,7 +33,7 @@ app.get('/docker/', async (req, res) => {
     // TODO : 이미지 만드는걸 분리하자...
     const NODE_VERSION = "14.19.1";
     const GITHUB_TARGET = "coffeequickly/half.engineer";
-    await docker.command(`run -itd -p 80:3000 $(docker build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg GITHUB_TARGET=${GITHUB_TARGET}  --build-arg GITHUB_TOKEN=${config.token} --no-cache -q -t test-2 .)`).then(function (data) {
+    await docker.command(`run -itd -p 80:3000 $(docker build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg GITHUB_TARGET=${GITHUB_TARGET}  --build-arg GITHUB_TOKEN=${config.token} -q -t test-2 .)`).then(function (data) {
         res.send({
             containerId : data.containerId
         })
