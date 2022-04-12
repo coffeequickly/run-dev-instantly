@@ -4,7 +4,7 @@
   "description": "> 특정 저장소+브랜치+커밋을 입력하면 컨테이너 빌드하고 랜덤 AA 레코드 붙여서 리턴",
   "main": "app.js",
   "scripts": {
-    "dev": "nodemon ./app.js"
+    "dev": "nodemon --exec babel-node ./app.js --delay 2"
   },
   "repository": {
     "type": "git",
@@ -18,11 +18,17 @@
   },
   "homepage": "https://github.com/coffeequickly/run-dev-instantly#readme",
   "dependencies": {
+    "@babel/core": "^7.17.9",
+    "@babel/node": "^7.16.8",
     "body-parser": "^1.20.0",
+    "core-js": "^3.21.1",
     "docker-cli-js": "^2.9.0",
-    "dockerode": "^3.3.1",
-    "dockerode-compose": "^1.2.2",
+    "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "nodemon": "^2.0.15"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.17.6",
+    "@babel/preset-env": "^7.16.11"
   }
 }
