@@ -13,7 +13,7 @@
 
 ------
 
-* [ ] Node.js 사용해서(Express) Docker 실행 가능여부 확인
+* [x] Node.js 사용해서(Express) Docker 실행 가능여부 확인
 * [ ] Commit ID에 맞춰 임시 경로 생성해서 Repo 에서 Checkout 가능 여부 확인
 * [ ] Dockerfile 등 사용해서 컨테이너에 소스 넣고 빌드 해서 실행 가능 여부 확인
 * [ ] 노출 주소에 서브 도메인을 붙일 수 있을까? 아니면 웹서버 하나 더 놔야 할까?(대충 codesandbox 너낌)
