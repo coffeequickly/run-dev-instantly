@@ -29,8 +29,31 @@ const stopServer = () => {
 
 //https://github.com/coffeequickly/half.engineer.git
 
+app.get('/docker/cleanup', async (req, res)=>{
+    let resultStatus = {
+        dockerImage : null,
+        container : null
+    }
+
+    await docker.command(`ps -a`).then((data=>{
+        if(data.containerList.length > 0){
+            docker.command(`stop $(docker ps -a -q)`)
+
+            docker.command(`rm $(docker ps -a -q)`).then(data=>{
+                resultStatus.container = data.raw;
+
+                docker.command(`rmi $(docker images -q)`).then(data=>{
+                    resultStatus.dockerImage = data.raw;
+                });
+            });
+        }
+    }))
+
+    await res.send(resultStatus)
+})
+
+// TODO 메서드 교체 필요(POST, PUT, DELETE 등)
 app.get('/docker/', async (req, res) => {
-    // TODO : 이미지 만드는걸 분리하자...
     const NODE_VERSION = "14.19.1";
     const GITHUB_TARGET = "coffeequickly/half.engineer";
     const tagName = 'test4'
