@@ -33,16 +33,28 @@ app.get('/docker/', async (req, res) => {
     // TODO : 이미지 만드는걸 분리하자...
     const NODE_VERSION = "14.19.1";
     const GITHUB_TARGET = "coffeequickly/half.engineer";
-    await docker.command(`run -itd -p 80:3000 $(docker build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg GITHUB_TARGET=${GITHUB_TARGET}  --build-arg GITHUB_TOKEN=${config.token} -q -t test-2 .)`).then(function (data) {
-        res.send({
-            containerId : data.containerId
-        })
-    }, function(error){
-        res.send({
-            error : error
-        })
+    const tagName = 'test4'
+
+    let resultStatus = {
+        dockerImage : null,
+        container : null
+    }
+
+    await docker.command(`build --build-arg NODE_VERSION=${NODE_VERSION} --build-arg GITHUB_TARGET=${GITHUB_TARGET}  --build-arg GITHUB_TOKEN=${config.token} -q -t ${tagName} .`).then((img)=>{
+        resultStatus.dockerImage = img.response[0].replace('sha256:', '');
+    }).catch(error=>{
+        resultStatus.dockerImage = error
+    });
+
+    await docker.command(`run -itd -p 80:3000 ${tagName}`).then(function (data) {
+        resultStatus.container = data.containerId;
+    }).catch(error=>{
+        resultStatus.container = error;
     })
+
+    await res.send(resultStatus)
 });
+
 
 module.exports = {
     server,
