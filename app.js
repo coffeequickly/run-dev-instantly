@@ -67,7 +67,7 @@ app.get('/docker/', async (req, res) => {
         resultStatus.dockerImage = error
     });
 
-    await docker.command(`run -itd -p 80:3000 ${tagName}`).then(function (data) {
+    await docker.command(`run -itd -p 8080:3000 ${tagName}`).then(function (data) {
         resultStatus.container = data.containerId;
     }).catch(error=>{
         resultStatus.container = error;
