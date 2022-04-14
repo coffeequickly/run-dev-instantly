@@ -29,23 +29,21 @@ const stopServer = () => {
 
 //https://github.com/coffeequickly/half.engineer.git
 
-app.get('/docker/cleanup', async (req, res)=>{
+app.get('/cleanup/container', async (req, res)=>{
     let resultStatus = {
-        dockerImage : null,
         container : null
     }
 
     await docker.command(`ps -a`).then((data=>{
+
+        resultStatus.container = data.containerList;
+
         if(data.containerList.length > 0){
-            docker.command(`stop $(docker ps -a -q)`)
-
-            docker.command(`rm $(docker ps -a -q)`).then(data=>{
-                resultStatus.container = data.raw;
-
-                docker.command(`rmi $(docker images -q)`).then(data=>{
-                    resultStatus.dockerImage = data.raw;
+            docker.command(`stop $(docker ps -a -q)`).then(()=>{
+                docker.command(`rm $(docker ps -a -q)`).then(data=>{
+                    resultStatus.container = data.raw;
                 });
-            });
+            })
         }
     }))
 
